@@ -16,59 +16,60 @@ import darth.jminas.tools.ErrorReporter;
 import darth.jminas.tools.Sonido;
 
 public class JMinasMain extends JFrame implements ActionListener {
+
     private static final long serialVersionUID = 5263848303195260404L;
-    
+
     private JMenuBar menuBar;
     private JMenu menuOpciones, menuMas, menuNivel;
     private JMenuItem menuItemNuevo, menuItemSalir, menuItemEstadisticas, menuItemAcerca,
-    	menuItemNivel0, menuItemNivel1, menuItemNivel2, menuItemNivel3;
-    
+            menuItemNivel0, menuItemNivel1, menuItemNivel2, menuItemNivel3;
+
     private ErrorReporter errorReporter;
-    
+
     private PanelSuperior panelSuperior;
     private PanelCentral panelCentral;
     private PanelInferior panelInferior;
-    
-    private static Cronometro cronometro;
-    
+
+    private static Timer cronometro;
+
     private boolean jugando = false;
     public boolean Ganador = false;
-    
+
     public JMinasMain() {
-    	errorReporter = new ErrorReporter();
-    	limpiaErrores();
-    	
+        errorReporter = new ErrorReporter();
+        limpiaErrores();
+
         setTitle("JMinas");
         setSize(300, 396);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
-        
+
         createMenu();
         initComponents();
         addComponents();
         addKeyListener(panelCentral);
-        
+
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
         validaErroresAlCargar();
     }
-    
+
     private void initComponents() {
         panelSuperior = new PanelSuperior(this);
         panelCentral = new PanelCentral(this);
         panelInferior = new PanelInferior();
     }
-    
+
     private void addComponents() {
         add(panelSuperior, BorderLayout.NORTH);
         add(panelCentral, BorderLayout.CENTER);
         add(panelInferior, BorderLayout.SOUTH);
     }
-    
+
     private void createMenu() {
-        menuBar=new JMenuBar();
+        menuBar = new JMenuBar();
         setJMenuBar(menuBar);
-        
+
         menuOpciones = new JMenu("Opciones");
         menuBar.add(menuOpciones);
         menuItemNuevo = new JMenuItem("Nuevo");
@@ -97,99 +98,100 @@ public class JMinasMain extends JFrame implements ActionListener {
         menuItemSalir = new JMenuItem("Salir");
         menuItemSalir.addActionListener(this);
         menuOpciones.add(menuItemSalir);
-        
+
         menuMas = new JMenu("Mas");
         menuBar.add(menuMas);
         menuItemAcerca = new JMenuItem("Acerca de");
         menuItemAcerca.addActionListener(this);
         menuMas.add(menuItemAcerca);
     }
-    
+
     public void StartGame() {
-        cronometro = new Cronometro();
+        cronometro = new Timer();
         cronometro.start();
         jugando = true;
         Ganador = false;
     }
-    
+
     public void RestartGame() {
         panelCentral.restart();
         panelSuperior.restart();
-        if(cronometro != null)
-            cronometro.setActivo(false);
+        if (cronometro != null) {
+            cronometro.setActive(false);
+        }
         jugando = false;
         Ganador = false;
     }
-    
+
     public void LostGame() {
-        cronometro.setActivo(false);
+        cronometro.setActive(false);
         panelCentral.Perdio();
         jugando = false;
         Ganador = false;
         new Sonido(Variables.SonidoExplosion, Ganador).start();
     }
-    
+
     public void WinGame() {
         StopChron();
         panelCentral.Gano();
         Ganador = true;
         new Sonido(Variables.SonidoGanador, Ganador).start();
     }
-    
+
     public static void StopChron() {
-        cronometro.setActivo(false);
+        cronometro.setActive(false);
     }
-    
+
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==menuItemNuevo)
+        if (e.getSource() == menuItemNuevo) {
             RestartGame();
-        else if(e.getSource()==menuItemSalir)
+        } else if (e.getSource() == menuItemSalir) {
             System.exit(0);
-        else if(e.getSource()==menuItemNivel0) {
+        } else if (e.getSource() == menuItemNivel0) {
             Variables.setNivel(0);
             setSize(300, 395);
             setLocationRelativeTo(null);
             RestartGame();
-        }else if(e.getSource()==menuItemNivel1) {
+        } else if (e.getSource() == menuItemNivel1) {
             Variables.setNivel(1);
             setSize(300, 395);
             setLocationRelativeTo(null);
             RestartGame();
-        }else if(e.getSource()==menuItemNivel2) {
+        } else if (e.getSource() == menuItemNivel2) {
             Variables.setNivel(2);
             setSize(468, 500);
             setLocationRelativeTo(null);
             RestartGame();
-        }else if(e.getSource()==menuItemNivel3) {
+        } else if (e.getSource() == menuItemNivel3) {
             Variables.setNivel(3);
             setSize(842, 548);
             setLocationRelativeTo(null);
             RestartGame();
-        }else if(e.getSource()==menuItemAcerca) {
-        	new AcercaFrame().GenerateFrame();
+        } else if (e.getSource() == menuItemAcerca) {
+            new AcercaFrame().GenerateFrame();
         }
     }
-    
+
     public boolean isPlaying() {
         return jugando;
     }
-    
+
     private void limpiaErrores() {
-    	errorReporter.LimpiaErrores();
+        errorReporter.LimpiaErrores();
     }
-    
+
     private void validaErroresAlCargar() {
-    	if(!errorReporter.ExistenErrores()) {
-    		return;
-    	}
-    	JOptionPane.showMessageDialog(null,
-    			"No se pudieron cargar algunos recursos,\n" +
-				"se creo el archivo JMinas_errorlog.txt con\n" +
-				"informacion al respecto",
-				"ERROR",
-				JOptionPane.ERROR_MESSAGE);
+        if (!errorReporter.ExistenErrores()) {
+            return;
+        }
+        JOptionPane.showMessageDialog(null,
+                "No se pudieron cargar algunos recursos,\n"
+                + "se creo el archivo JMinas_errorlog.txt con\n"
+                + "informacion al respecto",
+                "ERROR",
+                JOptionPane.ERROR_MESSAGE);
     }
-    
+
     public static void main(String[] args) throws InterruptedException {
         new JMinasMain();
     }

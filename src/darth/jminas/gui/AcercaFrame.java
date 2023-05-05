@@ -12,11 +12,11 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 public class AcercaFrame {
-	
-	public void GenerateFrame() {
-		final JFrame frame = new JFrame("Frame test");
+
+    public void GenerateFrame() {
+        final JFrame frame = new JFrame("Frame test");
         frame.setUndecorated(true);
-        frame.setBackground(new Color(0,0,0,0));
+        frame.setBackground(new Color(0, 0, 0, 0));
         frame.setContentPane(new AcercaContentPane());
         frame.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -27,7 +27,7 @@ public class AcercaFrame {
         frame.setSize(500, 200);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        Thread t = new Thread(){
+        Thread t = new Thread() {
             public void run() {
                 try {
                     Thread.sleep(3000);
@@ -38,5 +38,5 @@ public class AcercaFrame {
             }
         };
         t.start();
-	}
+    }
 }

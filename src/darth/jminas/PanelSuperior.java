@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class PanelSuperior extends JPanel {
+
     private static final long serialVersionUID = 2473191468363778297L;
 
     private JMinasMain minasMain;
@@ -22,9 +23,9 @@ public class PanelSuperior extends JPanel {
     private JPanel pCronometro, pMinas;
 
     public PanelSuperior(JMinasMain minasMain) {
-    	this.minasMain = minasMain;
+        this.minasMain = minasMain;
         setBorder(BorderFactory.createRaisedBevelBorder());
-        setLayout(new GridLayout(1,5,3,3));
+        setLayout(new GridLayout(1, 5, 3, 3));
 
         initComponents();
         addComponents();
@@ -56,22 +57,26 @@ public class PanelSuperior extends JPanel {
             public void mouseReleased(MouseEvent e) {
                 lblStart.setBorder(BorderFactory.createRaisedBevelBorder());
             }
+
             public void mousePressed(MouseEvent e) {
                 lblStart.setBorder(BorderFactory.createLoweredBevelBorder());
             }
+
             public void mouseExited(MouseEvent e) {
-                if(lblStart.getIcon() != null)
+                if (lblStart.getIcon() != null) {
                     lblStart.setIcon(icon);
+                }
             }
+
             public void mouseEntered(MouseEvent e) {
-                if(lblStart.getIcon() != null) {
+                if (lblStart.getIcon() != null) {
                     icon = lblStart.getIcon();
                     lblStart.setIcon(new ImageIcon(getClass().getResource(Variables.pathRiendo)));
                 }
             }
 
             public void mouseClicked(MouseEvent e) {
-            	minasMain.RestartGame();
+                minasMain.RestartGame();
             }
         });
     }
@@ -83,7 +88,7 @@ public class PanelSuperior extends JPanel {
             URL url = this.getClass().getResource(Variables.pathIcoCronometro);
             ImageIcon icon = new ImageIcon(url);
             add(new JLabel(icon, JLabel.RIGHT));
-        }catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             add(new JLabel("tiempo ", JLabel.RIGHT));
         }
 
@@ -92,10 +97,10 @@ public class PanelSuperior extends JPanel {
         add(pMinas);
 
         try {
-            URL url = this.getClass().getResource(Variables.pathIcoMinas);  
+            URL url = this.getClass().getResource(Variables.pathIcoMinas);
             ImageIcon icon = new ImageIcon(url);
             add(new JLabel(icon, JLabel.LEFT));
-        } catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             add(new JLabel(" minas", JLabel.LEFT));
         }
     }
@@ -107,7 +112,7 @@ public class PanelSuperior extends JPanel {
     }
 
     public static void UpdateTime(int min, int seg) {
-        if(min == 99 && seg == 59){
+        if (min == 99 && seg == 59) {
             JMinasMain.StopChron();
             lblTime.setForeground(Color.red);
             lblTime.setText("--:--");
@@ -115,27 +120,34 @@ public class PanelSuperior extends JPanel {
         }
 
         String strMin, strSeg;
-        if(seg > 9) strSeg = ""+seg;
-        else strSeg = "0"+seg;
+        if (seg > 9) {
+            strSeg = "" + seg;
+        } else {
+            strSeg = "0" + seg;
+        }
 
-        if(min<10) strMin = "0"+min;
-        else strMin = ""+min;
+        if (min < 10) {
+            strMin = "0" + min;
+        } else {
+            strMin = "" + min;
+        }
 
-        lblTime.setText(strMin+":"+strSeg);
+        lblTime.setText(strMin + ":" + strSeg);
     }
 
     public static void UpdateMinas(int num) {
-        if(num < 0)
+        if (num < 0) {
             lblMinas.setForeground(Color.red);
-        else
+        } else {
             lblMinas.setForeground(Color.green);
-        lblMinas.setText(""+num);
+        }
+        lblMinas.setText("" + num);
     }
 
     public static void UpdateIconStart(ImageIcon icon, String text) {
-        if(icon != null)
+        if (icon != null) {
             lblStart.setIcon(icon);
-        else {
+        } else {
             lblStart.setIcon(null);
             lblStart.setText(text);
         }
