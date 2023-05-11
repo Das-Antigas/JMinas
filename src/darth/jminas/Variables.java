@@ -4,96 +4,80 @@ import java.awt.Color;
 
 public class Variables {
 
-    private static int nivel = 1;
-    public static int alto = 9;
-    public static int ancho = 9;
-    public static int numeroMinas = 18;
+    private static int level = 1;
+    public static int height = 9;
+    public static int width = 9;
+    public static int numberOfMines = 18;
 
-    public static final Color color1 = Color.blue, color2 = new Color(00, 99, 00), color3 = Color.red,
-            color4 = Color.magenta, color5 = Color.yellow, color6 = Color.cyan,
-            color7 = Color.orange, color8 = Color.black;
+    public static final String TIMER_ICON_PATH = "/darth/img/cronometro.png";
+    public static final String MINES_ICON_PATH = "/darth/img/mina.png";
+    public static final String FLAG_ICON_PATH = "/darth/img/bandera.png";
+    public static final String EXPLOSION_ICON_PATH = "/darth/img/boom.png";
+    public static final String NORMAL_ICON_PATH = "/darth/img/cool_32x32.png";
+    public static final String CLICK_ICON_PATH = "/darth/img/surprised_32x32.png";
+    public static final String MARK_ICON_PATH = "/darth/img/question_32x32.png";
+    public static final String LOOSER_ICON_PATH = "/darth/img/crying_32x32.png";
+    public static final String WINNER_ICON_PATH = "/darth/img/party_32x32.png";
+    public static final String LAUGHING_ICON_PATH = "/darth/img/laughtingoutloud_32x32.png";
+    public static final String BOOM_SOUND = "/darth/audio/boom.wav";
+    public static final String WINNER_SOUND = "/darth/audio/win.wav";
 
-    public static final String[] archivos = {
-        "cronometro.png",
-        "mina.png",
-        "bandera.png",
-        "boom.png",
-        "cool_32x32.png",
-        "surprised_32x32.png",
-        "question_32x32.png",
-        "crying_32x32.png",
-        "party_32x32.png",
-        "laughtingoutloud_32x32.png"
-    };
 
-    public static final String pathIcoCronometro = "/darth/img/" + archivos[0];
-    public static final String pathIcoMinas = "/darth/img/" + archivos[1];
-    public static final String pathBandera = "/darth/img/" + archivos[2];
-    public static final String pathExplosion = "/darth/img/" + archivos[3];
-    public static final String pathNormal = "/darth/img/" + archivos[4];
-    public static final String pathClick = "/darth/img/" + archivos[5];
-    public static final String pathMarca = "/darth/img/" + archivos[6];
-    public static final String pathLooser = "/darth/img/" + archivos[7];
-    public static final String pathWinner = "/darth/img/" + archivos[8];
-    public static final String pathRiendo = "/darth/img/" + archivos[9];
-    public static final String SonidoExplosion = "/darth/audio/boom.wav";
-    public static final String SonidoGanador = "/darth/audio/win.wav";
-
-    public static final String txtNormal = " :) ";
-    public static final String txtClick = " :O ";
-    public static final String txtMarca = " :| ";
-    public static final String txtWinner = " XD ";
-    public static final String txtLooser = " :( ";
-    public static final String txtRiendo = " ... ";
+    public static final String NORMAL_TEXT = " :) ";
+    public static final String CLICK_TEXT = " :O ";
+    public static final String MARK_TEXT = " :| ";
+    public static final String WINNER_TEXT = " XD ";
+    public static final String LOOSER_TEXT = " :( ";
+    public static final String LAUGHING_TEXT = " ... ";
 
     public static void setNivel(int val) {
-        nivel = val;
+        level = val;
         switch (val) {
             case 0:
-                alto = 9;
-                ancho = 9;
-                numeroMinas = 9;
+                height = 9;
+                width = 9;
+                numberOfMines = 9;
                 break;
             case 1:
-                alto = 9;
-                ancho = 9;
-                numeroMinas = 18;
+                height = 9;
+                width = 9;
+                numberOfMines = 18;
                 break;
             case 2:
-                alto = 16;
-                ancho = 16;
-                numeroMinas = 40;
+                height = 16;
+                width = 16;
+                numberOfMines = 40;
                 break;
             case 3:
-                alto = 16;
-                ancho = 30;
-                numeroMinas = 99;
+                height = 16;
+                width = 30;
+                numberOfMines = 99;
                 break;
         }
     }
 
-    public static int getNivel() {
-        return nivel;
+    public static int getLevel() {
+        return level;
     }
 
     public static Color getColorCantidad(int op) {
         switch (op) {
             case 1:
-                return color1;
+                return Color.blue;
             case 2:
-                return color2;
+                return new Color(00, 99, 00);
             case 3:
-                return color3;
+                return Color.red;
             case 4:
-                return color4;
+                return Color.magenta;
             case 5:
-                return color5;
+                return Color.yellow;
             case 6:
-                return color6;
+                return Color.cyan;
             case 7:
-                return color7;
+                return Color.orange;
             case 8:
-                return color8;
+                return Color.black;
             default:
                 return Color.black;
         }

@@ -4,6 +4,7 @@ public class Timer extends Thread {
 
     private boolean active = false;
 
+    @Override
     public void run() {
         int min = 0, seconds = 0;
         active = true;

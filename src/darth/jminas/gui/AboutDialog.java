@@ -1,24 +1,20 @@
 package darth.jminas.gui;
 
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.LinearGradientPaint;
-import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-public class AcercaFrame {
+public class AboutDialog {
 
     public void GenerateFrame() {
         final JFrame frame = new JFrame("Frame test");
         frame.setUndecorated(true);
         frame.setBackground(new Color(0, 0, 0, 0));
-        frame.setContentPane(new AcercaContentPane());
+        frame.setContentPane(new AboutDialogContentPane());
         frame.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseClicked(MouseEvent e) {
                 frame.dispose();
             }
@@ -28,6 +24,7 @@ public class AcercaFrame {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         Thread t = new Thread() {
+            @Override
             public void run() {
                 try {
                     Thread.sleep(3000);

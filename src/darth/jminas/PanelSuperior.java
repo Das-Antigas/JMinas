@@ -71,7 +71,7 @@ public class PanelSuperior extends JPanel {
             public void mouseEntered(MouseEvent e) {
                 if (lblStart.getIcon() != null) {
                     icon = lblStart.getIcon();
-                    lblStart.setIcon(new ImageIcon(getClass().getResource(Variables.pathRiendo)));
+                    lblStart.setIcon(new ImageIcon(getClass().getResource(Variables.LAUGHING_ICON_PATH)));
                 }
             }
 
@@ -85,7 +85,7 @@ public class PanelSuperior extends JPanel {
 
     private void addComponents() {
         try {
-            URL url = this.getClass().getResource(Variables.pathIcoCronometro);
+            URL url = this.getClass().getResource(Variables.TIMER_ICON_PATH);
             ImageIcon icon = new ImageIcon(url);
             add(new JLabel(icon, JLabel.RIGHT));
         } catch (NullPointerException e) {
@@ -97,7 +97,7 @@ public class PanelSuperior extends JPanel {
         add(pMinas);
 
         try {
-            URL url = this.getClass().getResource(Variables.pathIcoMinas);
+            URL url = this.getClass().getResource(Variables.MINES_ICON_PATH);
             ImageIcon icon = new ImageIcon(url);
             add(new JLabel(icon, JLabel.LEFT));
         } catch (NullPointerException e) {

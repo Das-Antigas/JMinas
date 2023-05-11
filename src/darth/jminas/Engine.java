@@ -46,7 +46,7 @@ public class Engine {
         playing = false;
         winner = false;
         loser = true;
-        new Sonido(Variables.SonidoExplosion, true).start();
+        new Sonido(Variables.BOOM_SOUND, true).start();
     }
 
     public void WinGame() {
@@ -54,7 +54,7 @@ public class Engine {
         panelCentral.Gano();
         winner = true;
         loser = false;
-        new Sonido(Variables.SonidoGanador, false).start();
+        new Sonido(Variables.WINNER_SOUND, false).start();
     }
 
     public void StopTimer() {

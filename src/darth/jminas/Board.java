@@ -6,9 +6,9 @@ public class Board {
     private int openedCells;
 
     public Board() {
-        board = new Cell[Variables.ancho][Variables.alto];
-        for (int i = 0; i < Variables.ancho; i++) {
-            for (int j = 0; j < Variables.alto; j++) {
+        board = new Cell[Variables.width][Variables.height];
+        for (int i = 0; i < Variables.width; i++) {
+            for (int j = 0; j < Variables.height; j++) {
                 board[i][j] = new Cell();
             }
         }
@@ -18,9 +18,9 @@ public class Board {
 
     private void placeMines() {
         int x, y, cont = 0;
-        while (cont < Variables.numeroMinas) {
-            x = (int) (Math.random() * Variables.ancho - 0);
-            y = (int) (Math.random() * Variables.alto - 0);
+        while (cont < Variables.numberOfMines) {
+            x = (int) (Math.random() * Variables.width - 0);
+            y = (int) (Math.random() * Variables.height - 0);
             if (board[x][y].hasMine) {
                 continue;
             }
@@ -39,7 +39,7 @@ public class Board {
     }
 
     private void addAdjacentMineCounter(int x, int y) {
-        if (x < 0 || y < 0 || x >= Variables.ancho || y >= Variables.alto) {
+        if (x < 0 || y < 0 || x >= Variables.width || y >= Variables.height) {
             return;
         } else {
             board[x][y].numberOfAdjacentMines++;
@@ -71,7 +71,7 @@ public class Board {
     }
 
     private void openRecursively(int x, int y) {
-        if (x < 0 || y < 0 || x >= Variables.ancho || y >= Variables.alto || board[x][y].open) {
+        if (x < 0 || y < 0 || x >= Variables.width || y >= Variables.height || board[x][y].open) {
         } else if (!board[x][y].hasMine && !board[x][y].isMarked) {
             board[x][y].open = true;
             openedCells++;
@@ -103,8 +103,8 @@ public class Board {
     }
 
     public void openAllCells() {
-        for (int i = 0; i < Variables.ancho; i++) {
-            for (int j = 0; j < Variables.alto; j++) {
+        for (int i = 0; i < Variables.width; i++) {
+            for (int j = 0; j < Variables.height; j++) {
                 board[i][j].open = true;
             }
         }

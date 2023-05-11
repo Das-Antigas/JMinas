@@ -11,7 +11,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 
-import darth.jminas.gui.AcercaFrame;
+import darth.jminas.gui.AboutDialog;
 import darth.jminas.tools.ErrorReporter;
 import darth.jminas.tools.Sonido;
 
@@ -24,7 +24,7 @@ public class JMinasMain extends JFrame implements ActionListener {
     private JMenuItem menuItemNuevo, menuItemSalir, menuItemEstadisticas, menuItemAcerca,
             menuItemNivel0, menuItemNivel1, menuItemNivel2, menuItemNivel3;
 
-    private ErrorReporter errorReporter;
+    private final ErrorReporter errorReporter;
 
     private PanelSuperior panelSuperior;
     private PanelCentral panelCentral;
@@ -128,20 +128,21 @@ public class JMinasMain extends JFrame implements ActionListener {
         panelCentral.Perdio();
         jugando = false;
         Ganador = false;
-        new Sonido(Variables.SonidoExplosion, Ganador).start();
+        new Sonido(Variables.BOOM_SOUND, Ganador).start();
     }
 
     public void WinGame() {
         StopChron();
         panelCentral.Gano();
         Ganador = true;
-        new Sonido(Variables.SonidoGanador, Ganador).start();
+        new Sonido(Variables.WINNER_SOUND, Ganador).start();
     }
 
     public static void StopChron() {
         cronometro.setActive(false);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == menuItemNuevo) {
             RestartGame();
@@ -168,7 +169,7 @@ public class JMinasMain extends JFrame implements ActionListener {
             setLocationRelativeTo(null);
             RestartGame();
         } else if (e.getSource() == menuItemAcerca) {
-            new AcercaFrame().GenerateFrame();
+            new AboutDialog().GenerateFrame();
         }
     }
 

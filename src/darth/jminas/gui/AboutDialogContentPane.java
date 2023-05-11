@@ -8,10 +8,11 @@ import java.awt.Point;
 
 import javax.swing.JComponent;
 
-public class AcercaContentPane extends JComponent {
+public class AboutDialogContentPane extends JComponent {
 
     private static final long serialVersionUID = 8668944310336850671L;
 
+    @Override
     public void paintComponent(Graphics graphics) {
         Graphics2D g = (Graphics2D) graphics;
         Color[] colors = new Color[]{
