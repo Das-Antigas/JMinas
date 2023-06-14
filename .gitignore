@@ -1,5 +1,6 @@
 /build/
-
+/out
+/.idea
 .metadata
 bin/
 tmp/
@@ -11,7 +12,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
-
+projeto_Jminas.iml
 # External tool builders
 .externalToolBuilders/
 

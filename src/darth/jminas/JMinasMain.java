@@ -1,5 +1,6 @@
 package darth.jminas;
 
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +15,8 @@ import javax.swing.JSeparator;
 import darth.jminas.gui.AboutDialog;
 import darth.jminas.tools.ErrorReporter;
 import darth.jminas.tools.Sonido;
+import darth.jminas.Estatisticas;
+
 
 public class JMinasMain extends JFrame implements ActionListener {
 
@@ -170,7 +173,12 @@ public class JMinasMain extends JFrame implements ActionListener {
             RestartGame();
         } else if (e.getSource() == menuItemAcerca) {
             new AboutDialog().GenerateFrame();
-        }
+        } else if (e.getSource() == menuItemEstadisticas) {
+            System.out.println("funciona");
+            Estatisticas estatisticas = new Estatisticas();
+            estatisticas.exibirEstatisticas();
+    }
+        
     }
 
     public boolean isPlaying() {
