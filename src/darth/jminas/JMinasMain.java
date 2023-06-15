@@ -1,6 +1,5 @@
 package darth.jminas;
 
-
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,9 +14,7 @@ import javax.swing.JSeparator;
 import darth.jminas.gui.AboutDialog;
 import darth.jminas.tools.ErrorReporter;
 import darth.jminas.tools.Sonido;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
+import javax.swing.SwingUtilities;
 
 public class JMinasMain extends JFrame implements ActionListener {
 
@@ -26,7 +23,7 @@ public class JMinasMain extends JFrame implements ActionListener {
     private JMenuBar menuBar;
     private JMenu menuOpciones, menuMas, menuNivel;
     private JMenuItem menuItemNuevo, menuItemSalir, menuItemEstadisticas, menuItemAcerca,
-            menuItemNivel0, menuItemNivel1, menuItemNivel2, menuItemNivel3;
+            menuItemNivel0, menuItemNivel1, menuItemNivel2, menuItemNivel3, menuChangeLanguage;
 
     private final ErrorReporter errorReporter;
 
@@ -38,20 +35,16 @@ public class JMinasMain extends JFrame implements ActionListener {
 
     private boolean jugando = false;
     public boolean Ganador = false;
-    
-    Locale currentLocale;
-    ResourceBundle messages;
+
+    Language language;
 
     public JMinasMain() {
-        String workingDirectory = System.getProperty("user.dir");
-        System.out.println(workingDirectory);
-        this.currentLocale = new Locale("pt", "BR"); // Defina o idioma desejado
-        messages = ResourceBundle.getBundle("messages", currentLocale);
+        this.language = Language.getInstance();
 
         errorReporter = new ErrorReporter();
         limpiaErrores();
 
-        setTitle(messages.getString("game_name"));
+        setTitle(language.getString("game_name"));
         setSize(300, 396);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -82,38 +75,42 @@ public class JMinasMain extends JFrame implements ActionListener {
         menuBar = new JMenuBar();
         setJMenuBar(menuBar);
 
-        menuOpciones = new JMenu(this.messages.getString("options"));
+        menuOpciones = new JMenu(this.language.getString("options"));
         menuBar.add(menuOpciones);
-        menuItemNuevo = new JMenuItem(this.messages.getString("new_game"));
+        menuItemNuevo = new JMenuItem(this.language.getString("new_game"));
         menuItemNuevo.addActionListener(this);
+        menuChangeLanguage = new JMenuItem(this.language.getString("change_language"));
+        menuChangeLanguage.addActionListener(this);
+
+        menuOpciones.add(menuChangeLanguage);
         menuOpciones.add(menuItemNuevo);
         menuOpciones.add(new JSeparator());
-        menuNivel = new JMenu(this.messages.getString("difficulty"));
+        menuNivel = new JMenu(this.language.getString("difficulty"));
         {
-            menuItemNivel0 = new JMenuItem(this.messages.getString("difficulty_0"));
+            menuItemNivel0 = new JMenuItem(this.language.getString("difficulty_0"));
             menuItemNivel0.addActionListener(this);
             menuNivel.add(menuItemNivel0);
-            menuItemNivel1 = new JMenuItem(this.messages.getString("difficulty_1"));
+            menuItemNivel1 = new JMenuItem(this.language.getString("difficulty_1"));
             menuItemNivel1.addActionListener(this);
             menuNivel.add(menuItemNivel1);
-            menuItemNivel2 = new JMenuItem(this.messages.getString("difficulty_2"));
+            menuItemNivel2 = new JMenuItem(this.language.getString("difficulty_2"));
             menuItemNivel2.addActionListener(this);
             menuNivel.add(menuItemNivel2);
-            menuItemNivel3 = new JMenuItem(this.messages.getString("difficulty_3"));
+            menuItemNivel3 = new JMenuItem(this.language.getString("difficulty_3"));
             menuItemNivel3.addActionListener(this);
             menuNivel.add(menuItemNivel3);
         }
         menuOpciones.add(menuNivel);
-        menuItemEstadisticas = new JMenuItem(this.messages.getString("statitics"));
+        menuItemEstadisticas = new JMenuItem(this.language.getString("statitics"));
         menuOpciones.add(menuItemEstadisticas);
         menuOpciones.add(new JSeparator());
-        menuItemSalir = new JMenuItem(this.messages.getString("exit"));
+        menuItemSalir = new JMenuItem(this.language.getString("exit"));
         menuItemSalir.addActionListener(this);
         menuOpciones.add(menuItemSalir);
 
-        menuMas = new JMenu(this.messages.getString("help"));
+        menuMas = new JMenu(this.language.getString("help"));
         menuBar.add(menuMas);
-        menuItemAcerca = new JMenuItem(this.messages.getString("about"));
+        menuItemAcerca = new JMenuItem(this.language.getString("about"));
         menuItemAcerca.addActionListener(this);
         menuMas.add(menuItemAcerca);
     }
@@ -158,6 +155,11 @@ public class JMinasMain extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == menuItemNuevo) {
             RestartGame();
+        } else if (e.getSource() == menuChangeLanguage) {
+            SwingUtilities.invokeLater(() -> {
+                ChangeLanguage window = new ChangeLanguage();
+                window.setVisible(true);
+            });
         } else if (e.getSource() == menuItemSalir) {
             System.exit(0);
         } else if (e.getSource() == menuItemNivel0) {
@@ -186,8 +188,8 @@ public class JMinasMain extends JFrame implements ActionListener {
             System.out.println("funciona");
             Estatisticas estatisticas = new Estatisticas();
             estatisticas.exibirEstatisticas();
-    }
-        
+        }
+
     }
 
     public boolean isPlaying() {
