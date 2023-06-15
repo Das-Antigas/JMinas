@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.SwingUtilities;
 
 
 /**
@@ -71,6 +70,7 @@ public class ChangeLanguage extends JFrame {
             }
             
             language.setLocale(locale);
+            new JMinasMain();
             dispose();
         });
         cancelButton.addActionListener((ActionEvent e) -> {

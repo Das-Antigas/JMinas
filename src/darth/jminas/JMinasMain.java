@@ -21,9 +21,20 @@ public class JMinasMain extends JFrame implements ActionListener {
     private static final long serialVersionUID = 5263848303195260404L;
 
     private JMenuBar menuBar;
-    private JMenu menuOpciones, menuMas, menuNivel;
-    private JMenuItem menuItemNuevo, menuItemSalir, menuItemEstadisticas, menuItemAcerca,
-            menuItemNivel0, menuItemNivel1, menuItemNivel2, menuItemNivel3, menuChangeLanguage;
+
+    private JMenu optionsMenu;
+    private JMenu helpMenu;
+    private JMenu difficultyMenuItem;
+
+    private JMenuItem newGameMenuItem;
+    private JMenuItem exitMenuItem;
+    private JMenuItem statiticsMenuItem;
+    private JMenuItem aboutMenuItem;
+    private JMenuItem difficulty0MenuItem;
+    private JMenuItem difficulty1MenuItem;
+    private JMenuItem difficulty2MenuItem;
+    private JMenuItem difficulty3MenuItem;
+    private JMenuItem changeLanguageMenuItem;
 
     private final ErrorReporter errorReporter;
 
@@ -42,9 +53,9 @@ public class JMinasMain extends JFrame implements ActionListener {
         this.language = Language.getInstance();
 
         errorReporter = new ErrorReporter();
-        limpiaErrores();
+        cleanErrors();
 
-        setTitle(language.getString("game_name"));
+        setTitle(this.language.getString("game_name"));
         setSize(300, 396);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -56,7 +67,7 @@ public class JMinasMain extends JFrame implements ActionListener {
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
-        validaErroresAlCargar();
+        validateLoadingErrors();
     }
 
     private void initComponents() {
@@ -75,44 +86,54 @@ public class JMinasMain extends JFrame implements ActionListener {
         menuBar = new JMenuBar();
         setJMenuBar(menuBar);
 
-        menuOpciones = new JMenu(this.language.getString("options"));
-        menuBar.add(menuOpciones);
-        menuItemNuevo = new JMenuItem(this.language.getString("new_game"));
-        menuItemNuevo.addActionListener(this);
-        menuChangeLanguage = new JMenuItem(this.language.getString("change_language"));
-        menuChangeLanguage.addActionListener(this);
+        optionsMenu = new JMenu(this.language.getString("options"));
+        helpMenu = new JMenu(this.language.getString("help"));
 
-        menuOpciones.add(menuChangeLanguage);
-        menuOpciones.add(menuItemNuevo);
-        menuOpciones.add(new JSeparator());
-        menuNivel = new JMenu(this.language.getString("difficulty"));
+        menuBar.add(optionsMenu);
+        menuBar.add(helpMenu);
+
+        difficultyMenuItem = new JMenu(this.language.getString("difficulty"));
+
         {
-            menuItemNivel0 = new JMenuItem(this.language.getString("difficulty_0"));
-            menuItemNivel0.addActionListener(this);
-            menuNivel.add(menuItemNivel0);
-            menuItemNivel1 = new JMenuItem(this.language.getString("difficulty_1"));
-            menuItemNivel1.addActionListener(this);
-            menuNivel.add(menuItemNivel1);
-            menuItemNivel2 = new JMenuItem(this.language.getString("difficulty_2"));
-            menuItemNivel2.addActionListener(this);
-            menuNivel.add(menuItemNivel2);
-            menuItemNivel3 = new JMenuItem(this.language.getString("difficulty_3"));
-            menuItemNivel3.addActionListener(this);
-            menuNivel.add(menuItemNivel3);
-        }
-        menuOpciones.add(menuNivel);
-        menuItemEstadisticas = new JMenuItem(this.language.getString("statitics"));
-        menuOpciones.add(menuItemEstadisticas);
-        menuOpciones.add(new JSeparator());
-        menuItemSalir = new JMenuItem(this.language.getString("exit"));
-        menuItemSalir.addActionListener(this);
-        menuOpciones.add(menuItemSalir);
+            difficulty0MenuItem = new JMenuItem(this.language.getString("difficulty_0"));
+            difficulty1MenuItem = new JMenuItem(this.language.getString("difficulty_1"));
+            difficulty2MenuItem = new JMenuItem(this.language.getString("difficulty_2"));
+            difficulty3MenuItem = new JMenuItem(this.language.getString("difficulty_3"));
 
-        menuMas = new JMenu(this.language.getString("help"));
-        menuBar.add(menuMas);
-        menuItemAcerca = new JMenuItem(this.language.getString("about"));
-        menuItemAcerca.addActionListener(this);
-        menuMas.add(menuItemAcerca);
+            difficulty0MenuItem.addActionListener(this);
+            difficulty1MenuItem.addActionListener(this);
+            difficulty2MenuItem.addActionListener(this);
+            difficulty3MenuItem.addActionListener(this);
+
+            difficultyMenuItem.add(difficulty0MenuItem);
+            difficultyMenuItem.add(difficulty1MenuItem);
+            difficultyMenuItem.add(difficulty2MenuItem);
+            difficultyMenuItem.add(difficulty3MenuItem);
+        }
+
+        newGameMenuItem = new JMenuItem(this.language.getString("new_game"));
+        changeLanguageMenuItem = new JMenuItem(this.language.getString("change_language"));
+        statiticsMenuItem = new JMenuItem(this.language.getString("statitics"));
+        exitMenuItem = new JMenuItem(this.language.getString("exit"));
+
+        newGameMenuItem.addActionListener(this);
+        changeLanguageMenuItem.addActionListener(this);
+        statiticsMenuItem.addActionListener(this);
+        exitMenuItem.addActionListener(this);
+
+        optionsMenu.add(newGameMenuItem);
+        optionsMenu.add(new JSeparator());
+        optionsMenu.add(changeLanguageMenuItem);
+        optionsMenu.add(difficultyMenuItem);
+        optionsMenu.add(statiticsMenuItem);
+        optionsMenu.add(new JSeparator());
+        optionsMenu.add(exitMenuItem);
+
+        /*--------------------------------------------*/
+        aboutMenuItem = new JMenuItem(this.language.getString("about"));
+        aboutMenuItem.addActionListener(this);
+
+        helpMenu.add(aboutMenuItem);
     }
 
     public void StartGame() {
@@ -153,38 +174,40 @@ public class JMinasMain extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == menuItemNuevo) {
+        if (e.getSource() == newGameMenuItem) {
             RestartGame();
-        } else if (e.getSource() == menuChangeLanguage) {
+        } else if (e.getSource() == changeLanguageMenuItem) {
             SwingUtilities.invokeLater(() -> {
                 ChangeLanguage window = new ChangeLanguage();
                 window.setVisible(true);
+                dispose();
+
             });
-        } else if (e.getSource() == menuItemSalir) {
+        } else if (e.getSource() == exitMenuItem) {
             System.exit(0);
-        } else if (e.getSource() == menuItemNivel0) {
+        } else if (e.getSource() == difficulty0MenuItem) {
             Variables.setNivel(0);
             setSize(300, 395);
             setLocationRelativeTo(null);
             RestartGame();
-        } else if (e.getSource() == menuItemNivel1) {
+        } else if (e.getSource() == difficulty1MenuItem) {
             Variables.setNivel(1);
             setSize(300, 395);
             setLocationRelativeTo(null);
             RestartGame();
-        } else if (e.getSource() == menuItemNivel2) {
+        } else if (e.getSource() == difficulty2MenuItem) {
             Variables.setNivel(2);
             setSize(468, 500);
             setLocationRelativeTo(null);
             RestartGame();
-        } else if (e.getSource() == menuItemNivel3) {
+        } else if (e.getSource() == difficulty3MenuItem) {
             Variables.setNivel(3);
             setSize(842, 548);
             setLocationRelativeTo(null);
             RestartGame();
-        } else if (e.getSource() == menuItemAcerca) {
+        } else if (e.getSource() == aboutMenuItem) {
             new AboutDialog().GenerateFrame();
-        } else if (e.getSource() == menuItemEstadisticas) {
+        } else if (e.getSource() == statiticsMenuItem) {
             System.out.println("funciona");
             Estatisticas estatisticas = new Estatisticas();
             estatisticas.exibirEstatisticas();
@@ -196,11 +219,11 @@ public class JMinasMain extends JFrame implements ActionListener {
         return jugando;
     }
 
-    private void limpiaErrores() {
+    private void cleanErrors() {
         errorReporter.LimpiaErrores();
     }
 
-    private void validaErroresAlCargar() {
+    private void validateLoadingErrors() {
         if (!errorReporter.ExistenErrores()) {
             return;
         }
