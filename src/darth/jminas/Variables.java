@@ -3,6 +3,8 @@ package darth.jminas;
 import java.awt.Color;
 
 public class Variables {
+    
+    public static String JMINES_VERSION = "1.0";
 
     private static int level = 1;
     public static int height = 9;

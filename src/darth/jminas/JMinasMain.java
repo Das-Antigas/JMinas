@@ -1,5 +1,6 @@
 package darth.jminas;
 
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +14,7 @@ import javax.swing.JSeparator;
 
 import darth.jminas.gui.AboutDialog;
 import darth.jminas.tools.ErrorReporter;
-import darth.jminas.tools.Sonido;
+import darth.jminas.tools.MakeSound;
 import javax.swing.SwingUtilities;
 
 public class JMinasMain extends JFrame implements ActionListener {
@@ -38,9 +39,9 @@ public class JMinasMain extends JFrame implements ActionListener {
 
     private final ErrorReporter errorReporter;
 
-    private PanelSuperior panelSuperior;
-    private PanelCentral panelCentral;
-    private PanelInferior panelInferior;
+    private TopPanel panelSuperior;
+    private CentralPanel panelCentral;
+    private BottomPanel panelInferior;
 
     private static Timer cronometro;
 
@@ -71,9 +72,9 @@ public class JMinasMain extends JFrame implements ActionListener {
     }
 
     private void initComponents() {
-        panelSuperior = new PanelSuperior(this);
-        panelCentral = new PanelCentral(this);
-        panelInferior = new PanelInferior();
+        panelSuperior = new TopPanel(this);
+        panelCentral = new CentralPanel(this);
+        panelInferior = new BottomPanel();
     }
 
     private void addComponents() {
@@ -155,17 +156,17 @@ public class JMinasMain extends JFrame implements ActionListener {
 
     public void LostGame() {
         cronometro.setActive(false);
-        panelCentral.Perdio();
+        panelCentral.lostGame();
         jugando = false;
         Ganador = false;
-        new Sonido(Variables.BOOM_SOUND, Ganador).start();
+        new MakeSound(Variables.BOOM_SOUND, Ganador).start();
     }
 
     public void WinGame() {
         StopChron();
-        panelCentral.Gano();
+        panelCentral.wonGame();
         Ganador = true;
-        new Sonido(Variables.WINNER_SOUND, Ganador).start();
+        new MakeSound(Variables.WINNER_SOUND, Ganador).start();
     }
 
     public static void StopChron() {
@@ -209,8 +210,7 @@ public class JMinasMain extends JFrame implements ActionListener {
             new AboutDialog().GenerateFrame();
         } else if (e.getSource() == statiticsMenuItem) {
             System.out.println("funciona");
-            Estatisticas estatisticas = new Estatisticas();
-            estatisticas.exibirEstatisticas();
+            new StatisticsWindow();
         }
 
     }
@@ -236,6 +236,7 @@ public class JMinasMain extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) throws InterruptedException {
+        FlatMacLightLaf.setup();
         new JMinasMain();
     }
 }

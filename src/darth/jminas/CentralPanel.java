@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 
 import darth.jminas.tools.ErrorReporter;
 
-public class PanelCentral extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
+public class CentralPanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 
     private static final long serialVersionUID = 5390823312595822624L;
 
@@ -43,17 +43,17 @@ public class PanelCentral extends JPanel implements MouseListener, MouseMotionLi
     private ImageIcon iconWiner;
     private ImageIcon iconRiendo;
 
-    public PanelCentral(JMinasMain minasMain) {
+    public CentralPanel(JMinasMain minasMain) {
         this.minasMain = minasMain;
         board = new Board();
         contMinasMarcadas = Variables.numberOfMines;
-        PanelSuperior.UpdateMinas(contMinasMarcadas);
+        TopPanel.UpdateMinas(contMinasMarcadas);
         mira = new Point(0, 0);
 
-        cargarImagenes();
+        loadAllImages();
 
         if (iconNormal != null) {
-            PanelSuperior.UpdateIconStart(iconNormal, Variables.NORMAL_TEXT);
+            TopPanel.UpdateIconStart(iconNormal, Variables.NORMAL_TEXT);
         }
 
         if (imgBandera != null) {
@@ -68,12 +68,13 @@ public class PanelCentral extends JPanel implements MouseListener, MouseMotionLi
     public void restart() {
         board = new Board();
         contMinasMarcadas = Variables.numberOfMines;
-        PanelSuperior.UpdateMinas(contMinasMarcadas);
-        PanelSuperior.UpdateIconStart(iconNormal, " :) ");
+        TopPanel.UpdateMinas(contMinasMarcadas);
+        TopPanel.UpdateIconStart(iconNormal, " :) ");
         mira = new Point(0, 0);
         repaint();
     }
 
+    @Override
     public void paint(Graphics aux) {
         g = (Graphics2D) aux;
         g.setFont(new Font("Serif", Font.BOLD, 18));
@@ -96,7 +97,8 @@ public class PanelCentral extends JPanel implements MouseListener, MouseMotionLi
         for (int i = 0; i < Variables.width; i++) {
             for (int j = 0; j < Variables.height; j++) {
                 //g.setColor(Color.gray);
-                g.setPaint(new GradientPaint(11, 10, Color.gray, 25, 25, Color.lightGray, true));
+                //g.setPaint(new GradientPaint(11, 10, Color.gray, 25, 25, Color.lightGray, true));
+                g.setPaint(new Color(0xb9bcb5));
                 //if(mapa.TieneMina(i, j))
                 //	g.setColor(Color.red);
                 g.fillRect(i * dx + 1, j * dy + 1, dx - 1, dy - 1);
@@ -133,18 +135,18 @@ public class PanelCentral extends JPanel implements MouseListener, MouseMotionLi
                 }
             }
         }
-        g.setColor(Color.black);
+        g.setColor(Color.red);
         g.drawRect(mira.x * dx + 1, mira.y * dy + 1, dx - 2, dy - 2);
     }
 
-    public void Perdio() {
-        PanelSuperior.UpdateIconStart(iconLooser, Variables.LOOSER_TEXT);
+    public void lostGame() {
+        TopPanel.UpdateIconStart(iconLooser, Variables.LOOSER_TEXT);
         board.openAllCells();
         repaint();
     }
 
-    public void Gano() {
-        PanelSuperior.UpdateIconStart(iconWiner, Variables.WINNER_TEXT);
+    public void wonGame() {
+        TopPanel.UpdateIconStart(iconWiner, Variables.WINNER_TEXT);
     }
 
     private void abrir(int x, int y, int op) {
@@ -185,7 +187,7 @@ public class PanelCentral extends JPanel implements MouseListener, MouseMotionLi
                     } else {
                         ++contMinasMarcadas;
                     }
-                    PanelSuperior.UpdateMinas(contMinasMarcadas);
+                    TopPanel.UpdateMinas(contMinasMarcadas);
                 }
                 break;
         }
@@ -196,18 +198,18 @@ public class PanelCentral extends JPanel implements MouseListener, MouseMotionLi
         return board.getOpenedCells() == (Variables.width * Variables.height - Variables.numberOfMines);
     }
 
-    private void cargarImagenes() {
-        imgBandera = cargaImagenIndividual(Variables.FLAG_ICON_PATH).getImage();
-        imgExplosion = cargaImagenIndividual(Variables.EXPLOSION_ICON_PATH).getImage();
-        iconNormal = cargaImagenIndividual(Variables.NORMAL_ICON_PATH);
-        iconClick = cargaImagenIndividual(Variables.CLICK_ICON_PATH);
-        iconMarca = cargaImagenIndividual(Variables.MARK_ICON_PATH);
-        iconLooser = cargaImagenIndividual(Variables.LOOSER_ICON_PATH);
-        iconWiner = cargaImagenIndividual(Variables.WINNER_ICON_PATH);
-        iconRiendo = cargaImagenIndividual(Variables.LAUGHING_ICON_PATH);
+    private void loadAllImages() {
+        imgBandera = loadImage(Variables.FLAG_ICON_PATH).getImage();
+        imgExplosion = loadImage(Variables.EXPLOSION_ICON_PATH).getImage();
+        iconNormal = loadImage(Variables.NORMAL_ICON_PATH);
+        iconClick = loadImage(Variables.CLICK_ICON_PATH);
+        iconMarca = loadImage(Variables.MARK_ICON_PATH);
+        iconLooser = loadImage(Variables.LOOSER_ICON_PATH);
+        iconWiner = loadImage(Variables.WINNER_ICON_PATH);
+        iconRiendo = loadImage(Variables.LAUGHING_ICON_PATH);
     }
 
-    private ImageIcon cargaImagenIndividual(String path) {
+    private ImageIcon loadImage(String path) {
         try {
             ImageIcon icon = new ImageIcon(getClass().getResource(path));
             return icon;
@@ -220,9 +222,9 @@ public class PanelCentral extends JPanel implements MouseListener, MouseMotionLi
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getButton() == 1) {
-            PanelSuperior.UpdateIconStart(iconClick, Variables.CLICK_TEXT);
+            TopPanel.UpdateIconStart(iconClick, Variables.CLICK_TEXT);
         } else {
-            PanelSuperior.UpdateIconStart(iconMarca, Variables.MARK_TEXT);
+            TopPanel.UpdateIconStart(iconMarca, Variables.MARK_TEXT);
         }
 
         int x = e.getX() / dx;
@@ -234,7 +236,7 @@ public class PanelCentral extends JPanel implements MouseListener, MouseMotionLi
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        PanelSuperior.UpdateIconStart(iconNormal, Variables.NORMAL_TEXT);
+        TopPanel.UpdateIconStart(iconNormal, Variables.NORMAL_TEXT);
         int x = e.getX() / dx;
         int y = e.getY() / dy;
         if (mira.x != x || mira.y != y) {
@@ -248,15 +250,19 @@ public class PanelCentral extends JPanel implements MouseListener, MouseMotionLi
         }
     }
 
+    @Override
     public void mouseClicked(MouseEvent e) {
     }
 
+    @Override
     public void mouseEntered(MouseEvent e) {
     }
 
+    @Override
     public void mouseExited(MouseEvent e) {
     }
 
+    @Override
     public void mouseMoved(MouseEvent e) {
 
         int x = e.getX() / dx;
@@ -269,9 +275,11 @@ public class PanelCentral extends JPanel implements MouseListener, MouseMotionLi
         }
     }
 
+    @Override
     public void mouseDragged(MouseEvent e) {
     }
 
+    @Override
     public void keyPressed(KeyEvent e) {
         int x = (int) mira.getX();
         int y = (int) mira.getY();
@@ -314,32 +322,34 @@ public class PanelCentral extends JPanel implements MouseListener, MouseMotionLi
                 }
                 break;
             case KeyEvent.VK_ENTER:
-                PanelSuperior.UpdateIconStart(iconClick, Variables.CLICK_TEXT);
+                TopPanel.UpdateIconStart(iconClick, Variables.CLICK_TEXT);
                 abrir(x, y, 0);
                 break;
             case KeyEvent.VK_SPACE:
-                PanelSuperior.UpdateIconStart(iconClick, Variables.CLICK_TEXT);
+                TopPanel.UpdateIconStart(iconClick, Variables.CLICK_TEXT);
                 abrir(x, y, 0);
                 break;
             case KeyEvent.VK_CONTROL:
-                PanelSuperior.UpdateIconStart(iconMarca, Variables.MARK_TEXT);
+                TopPanel.UpdateIconStart(iconMarca, Variables.MARK_TEXT);
                 abrir(x, y, 1);
                 break;
             case KeyEvent.VK_N:
-                PanelSuperior.UpdateIconStart(iconRiendo, Variables.LAUGHING_TEXT);
+                TopPanel.UpdateIconStart(iconRiendo, Variables.LAUGHING_TEXT);
                 minasMain.RestartGame();
                 break;
         }
     }
 
+    @Override
     public void keyTyped(KeyEvent e) {
     }
 
+    @Override
     public void keyReleased(KeyEvent e) {
         if (minasMain.Ganador) {
-            PanelSuperior.UpdateIconStart(iconWiner, Variables.WINNER_TEXT);
+            TopPanel.UpdateIconStart(iconWiner, Variables.WINNER_TEXT);
         } else {
-            PanelSuperior.UpdateIconStart(iconNormal, Variables.NORMAL_TEXT);
+            TopPanel.UpdateIconStart(iconNormal, Variables.NORMAL_TEXT);
         }
     }
 }

@@ -10,7 +10,7 @@ public class Timer extends Thread {
         active = true;
         while (active) {
             try {
-                PanelSuperior.UpdateTime(min, seconds);
+                TopPanel.UpdateTime(min, seconds);
                 Thread.sleep(999);
                 seconds++;
                 if (seconds == 60) {

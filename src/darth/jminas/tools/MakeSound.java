@@ -7,19 +7,20 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.JOptionPane;
 
-public class Sonido extends Thread {
+public class MakeSound extends Thread {
 
-    private String clipPath;
-    private boolean winnerFlag;
+    private final String clipPath;
+    private final boolean soundDisabled;
 
-    public Sonido(String clipPath, boolean winnerFlag) {
+    public MakeSound(String clipPath, boolean soundDisabled) {
         this.clipPath = clipPath;
-        this.winnerFlag = winnerFlag;
+        this.soundDisabled = soundDisabled;
     }
 
+    @Override
     public void run() {
+        if (soundDisabled) return;
         try {
             final Clip sonido = AudioSystem.getClip();
             URL pathBoom = getClass().getResource(clipPath);
@@ -30,11 +31,6 @@ public class Sonido extends Thread {
             sonido.stop();
         } catch (LineUnavailableException | IOException | UnsupportedAudioFileException | NullPointerException e) {
             new ErrorReporter().CreateLog("Error message: " + e.getMessage() + "\n" + e.getLocalizedMessage());
-            if (winnerFlag) {
-                JOptionPane.showMessageDialog(null, "¡HAS GANADO!", "Error con el archivo de audio", JOptionPane.ERROR_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "¡BOO000000M!", "Error con el archivo de audio", JOptionPane.ERROR_MESSAGE);
-            }
         }
     }
 }

@@ -1,26 +1,32 @@
 package darth.jminas;
 
-import darth.jminas.tools.Sonido;
+import darth.jminas.tools.MakeSound;
 
 public class Engine {
 
     private JMinasMain main;
-    private PanelSuperior panelTop;
-    private PanelCentral panelCentral;
-    private PanelInferior panelBottom;
+    private TopPanel panelTop;
+    private CentralPanel panelCentral;
+    private BottomPanel panelBottom;
     private Timer chronometer;
 
     private boolean playing = false;
     private boolean winner = false;
     private boolean loser = false;
+    
+    private boolean soundDisabled = true;
 
-    public Engine(JMinasMain main, PanelSuperior panelSuperior, PanelCentral panelCentral, PanelInferior panelInferior) {
+    public Engine(JMinasMain main, TopPanel panelSuperior, CentralPanel panelCentral, BottomPanel panelInferior) {
         this.main = main;
         this.panelTop = panelSuperior;
         this.panelCentral = panelCentral;
         this.panelBottom = panelInferior;
     }
 
+    public void setSound(boolean sound) {
+        this.soundDisabled = sound;
+    }    
+    
     public void StartGame() {
         chronometer = new Timer();
         chronometer.start();
@@ -42,19 +48,19 @@ public class Engine {
 
     public void LostGame() {
         chronometer.setActive(false);
-        panelCentral.Perdio();
+        panelCentral.lostGame();
         playing = false;
         winner = false;
         loser = true;
-        new Sonido(Variables.BOOM_SOUND, true).start();
+        new MakeSound(Variables.BOOM_SOUND, this.soundDisabled).start();
     }
 
     public void WinGame() {
         StopTimer();
-        panelCentral.Gano();
+        panelCentral.wonGame();
         winner = true;
         loser = false;
-        new Sonido(Variables.WINNER_SOUND, false).start();
+        new MakeSound(Variables.WINNER_SOUND, this.soundDisabled).start();
     }
 
     public void StopTimer() {

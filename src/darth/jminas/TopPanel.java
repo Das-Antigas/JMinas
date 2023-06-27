@@ -14,15 +14,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class PanelSuperior extends JPanel {
+public class TopPanel extends JPanel {
 
     private static final long serialVersionUID = 2473191468363778297L;
 
     private JMinasMain minasMain;
-    private static JLabel lblTime, lblMinas, lblStart;
-    private JPanel pCronometro, pMinas;
+    private static JLabel lblTime, lblMines, lblStart;
+    private JPanel pTimer, pMines;
 
-    public PanelSuperior(JMinasMain minasMain) {
+    public TopPanel(JMinasMain minasMain) {
         this.minasMain = minasMain;
         setBorder(BorderFactory.createRaisedBevelBorder());
         setLayout(new GridLayout(1, 5, 3, 3));
@@ -32,42 +32,46 @@ public class PanelSuperior extends JPanel {
     }
 
     private void initComponents() {
-        pCronometro = new JPanel();
-        pCronometro.setBackground(Color.black);
-        pCronometro.setLayout(new BorderLayout());
-        pMinas = new JPanel();
-        pMinas.setBackground(Color.black);
-        pMinas.setLayout(new BorderLayout());
+        pTimer = new JPanel();
+        pTimer.setBackground(Color.black);
+        pTimer.setLayout(new BorderLayout());
+        pMines = new JPanel();
+        pMines.setBackground(Color.black);
+        pMines.setLayout(new BorderLayout());
 
         lblTime = new JLabel("00:00", JLabel.CENTER);
         lblTime.setBackground(Color.black);
         lblTime.setForeground(Color.green);
         lblTime.setFont(new Font("Serif", Font.BOLD, 16));
-        pCronometro.add(lblTime, BorderLayout.CENTER);
+        pTimer.add(lblTime, BorderLayout.CENTER);
 
-        lblMinas = new JLabel("00", JLabel.CENTER);
-        lblMinas.setBackground(Color.black);
-        lblMinas.setForeground(Color.green);
-        lblMinas.setFont(new Font("Serif", Font.BOLD, 16));
-        pMinas.add(lblMinas, BorderLayout.CENTER);
+        lblMines = new JLabel("00", JLabel.CENTER);
+        lblMines.setBackground(Color.black);
+        lblMines.setForeground(Color.green);
+        lblMines.setFont(new Font("Serif", Font.BOLD, 16));
+        pMines.add(lblMines, BorderLayout.CENTER);
 
         lblStart = new JLabel("", JLabel.CENTER);
         lblStart.setBorder(BorderFactory.createRaisedBevelBorder());
         lblStart.addMouseListener(new MouseListener() {
+            @Override
             public void mouseReleased(MouseEvent e) {
                 lblStart.setBorder(BorderFactory.createRaisedBevelBorder());
             }
 
+            @Override
             public void mousePressed(MouseEvent e) {
                 lblStart.setBorder(BorderFactory.createLoweredBevelBorder());
             }
 
+            @Override
             public void mouseExited(MouseEvent e) {
                 if (lblStart.getIcon() != null) {
                     lblStart.setIcon(icon);
                 }
             }
 
+            @Override
             public void mouseEntered(MouseEvent e) {
                 if (lblStart.getIcon() != null) {
                     icon = lblStart.getIcon();
@@ -75,6 +79,7 @@ public class PanelSuperior extends JPanel {
                 }
             }
 
+            @Override
             public void mouseClicked(MouseEvent e) {
                 minasMain.RestartGame();
             }
@@ -85,21 +90,21 @@ public class PanelSuperior extends JPanel {
 
     private void addComponents() {
         try {
-            URL url = this.getClass().getResource(Variables.TIMER_ICON_PATH);
-            ImageIcon icon = new ImageIcon(url);
-            add(new JLabel(icon, JLabel.RIGHT));
+            URL urlTimerIcon = this.getClass().getResource(Variables.TIMER_ICON_PATH);
+            ImageIcon timerIcon = new ImageIcon(urlTimerIcon);
+            add(new JLabel(timerIcon, JLabel.RIGHT));
         } catch (NullPointerException e) {
             add(new JLabel("tiempo ", JLabel.RIGHT));
         }
 
-        add(pCronometro);
+        add(pTimer);
         add(lblStart);
-        add(pMinas);
+        add(pMines);
 
         try {
-            URL url = this.getClass().getResource(Variables.MINES_ICON_PATH);
-            ImageIcon icon = new ImageIcon(url);
-            add(new JLabel(icon, JLabel.LEFT));
+            URL urlMinesIcon = this.getClass().getResource(Variables.MINES_ICON_PATH);
+            ImageIcon minesIcon = new ImageIcon(urlMinesIcon);
+            add(new JLabel(minesIcon, JLabel.LEFT));
         } catch (NullPointerException e) {
             add(new JLabel(" minas", JLabel.LEFT));
         }
@@ -108,7 +113,7 @@ public class PanelSuperior extends JPanel {
     public void restart() {
         lblTime.setForeground(Color.green);
         lblTime.setText("00:00");
-        lblMinas.setForeground(Color.green);
+        lblMines.setForeground(Color.green);
     }
 
     public static void UpdateTime(int min, int seg) {
@@ -137,11 +142,11 @@ public class PanelSuperior extends JPanel {
 
     public static void UpdateMinas(int num) {
         if (num < 0) {
-            lblMinas.setForeground(Color.red);
+            lblMines.setForeground(Color.red);
         } else {
-            lblMinas.setForeground(Color.green);
+            lblMines.setForeground(Color.green);
         }
-        lblMinas.setText("" + num);
+        lblMines.setText("" + num);
     }
 
     public static void UpdateIconStart(ImageIcon icon, String text) {

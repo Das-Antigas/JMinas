@@ -57,19 +57,17 @@ public class ChangeLanguage extends JFrame {
 
         // Buttons listeners
         okButton.addActionListener((ActionEvent e) -> {
-            Locale locale;
-
+            Locale locale1;
             if (radioPT.isSelected()) {
-                locale = new Locale("pt", "BR");
+                locale1 = new Locale("pt", "BR");
             } else if (radioEN.isSelected()) {
-                locale = new Locale("en", "US");
+                locale1 = new Locale("en", "US");
             } else if (radioES.isSelected()) {
-                locale = new Locale("es", "ES");
+                locale1 = new Locale("es", "ES");
             } else {
-                locale = new Locale("en", "US");
+                locale1 = new Locale("en", "US");
             }
-            
-            language.setLocale(locale);
+            language.setLocale(locale1);
             new JMinasMain();
             dispose();
         });

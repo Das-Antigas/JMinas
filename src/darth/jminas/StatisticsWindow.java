@@ -3,11 +3,10 @@ package darth.jminas;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class Estatisticas extends JFrame {
+public class StatisticsWindow extends JFrame {
 
-    public Estatisticas() {
+    public StatisticsWindow() {
         setTitle("Estatísticas");
         setSize(300, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -22,9 +21,9 @@ public class Estatisticas extends JFrame {
         JLabel labelJogos = new JLabel("Jogos jogados:");
         JLabel labelJogosValor = new JLabel("10");
         JLabel labelVitorias = new JLabel("Vitórias:");
-        JLabel labelVitoriasValor = new JLabel("3");
+        JLabel labelVitoriasValor = new JLabel("1");
         JLabel labelDerrotas = new JLabel("Derrotas:");
-        JLabel labelDerrotasValor = new JLabel("7");
+        JLabel labelDerrotasValor = new JLabel("9");
         painelCentral.add(labelJogos);
         painelCentral.add(labelJogosValor);
         painelCentral.add(labelVitorias);
@@ -34,12 +33,8 @@ public class Estatisticas extends JFrame {
 
         JPanel painelInferior = new JPanel();
         JButton botaoFechar = new JButton("Fechar");
-        botaoFechar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                new JMinasMain();
-            }
+        botaoFechar.addActionListener((ActionEvent e) -> {
+            dispose();
         });
         painelInferior.add(botaoFechar);
 
@@ -49,15 +44,5 @@ public class Estatisticas extends JFrame {
         add(painelInferior, BorderLayout.SOUTH);
 
         setVisible(true);
-    }
-
-
-    public static void main(String[] args) throws InterruptedException {
-        new Estatisticas();
-    }
-
-
-    public void exibirEstatisticas() {
-        new Estatisticas();
     }
 }
