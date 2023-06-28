@@ -11,6 +11,7 @@ public class Variables {
     public static int width = 9;
     public static int numberOfMines = 18;
 
+    /*
     public static final String TIMER_ICON_PATH = "/darth/img/cronometro.png";
     public static final String MINES_ICON_PATH = "/darth/img/mina.png";
     public static final String FLAG_ICON_PATH = "/darth/img/bandera.png";
@@ -21,9 +22,21 @@ public class Variables {
     public static final String LOOSER_ICON_PATH = "/darth/img/crying_32x32.png";
     public static final String WINNER_ICON_PATH = "/darth/img/party_32x32.png";
     public static final String LAUGHING_ICON_PATH = "/darth/img/laughtingoutloud_32x32.png";
+    */
+    
     public static final String BOOM_SOUND = "/darth/audio/boom.wav";
     public static final String WINNER_SOUND = "/darth/audio/win.wav";
 
+    public static final String TIMER_ICON_PATH = "/darth/img/com.github.parnold-x.timer.png";
+    public static final String MINES_ICON_PATH = "/darth/img/edit-bomb.png";
+    public static final String FLAG_ICON_PATH = "/darth/img/flag-red.png";
+    public static final String EXPLOSION_ICON_PATH = "/darth/img/edit-bomb.png";
+    public static final String NORMAL_ICON_PATH = "/darth/img/face-cool.png";
+    public static final String CLICK_ICON_PATH = "/darth/img/face-surprise.png";
+    public static final String MARK_ICON_PATH = "/darth/img/face-uncertain.png";
+    public static final String LOOSER_ICON_PATH = "/darth/img/face-crying.png";
+    public static final String WINNER_ICON_PATH = "/darth/img/face-raspberry.png";
+    public static final String LAUGHING_ICON_PATH = "/darth/img/face-smile-crying.png";
 
     public static final String NORMAL_TEXT = " :) ";
     public static final String CLICK_TEXT = " :O ";

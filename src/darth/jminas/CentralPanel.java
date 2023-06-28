@@ -84,12 +84,12 @@ public class CentralPanel extends JPanel implements MouseListener, MouseMotionLi
         dx = getWidth() / Variables.width;
         dy = getHeight() / Variables.height;
 
-        g.setColor(Color.gray);
+        g.setColor(Color.white);
         for (int i = 0; i < Variables.height; i++) {
             g.drawLine(0, i * dy, getWidth(), i * dy);
         }
 
-        g.setColor(Color.lightGray);
+        g.setColor(Color.white);
         for (int i = 0; i < Variables.width + 1; i++) {
             g.drawLine(i * dx, 0, i * dx, getHeight());
         }
