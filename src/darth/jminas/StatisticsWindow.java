@@ -25,7 +25,7 @@ public class StatisticsWindow extends JFrame {
 
         int gamesPlayed = saveFile.getGamesPlayed();
         int gamesWon = saveFile.getGamesWon();
-        int gamesLost = gamesPlayed - gamesWon;
+        int gamesLost = saveFile.getGamesLost();
         
         JPanel painelCentral = new JPanel();
         painelCentral.setLayout(new GridLayout(3, 2));

@@ -14,9 +14,10 @@ public class SaveFile {
     private Connection connection;
     private Statement statement;
     private static SaveFile uniqueInstance;
-    
-    private SaveFile() {}
-    
+
+    private SaveFile() {
+    }
+
     public static synchronized SaveFile getInstance() {
         if (uniqueInstance == null) {
             uniqueInstance = new SaveFile();
@@ -55,6 +56,7 @@ public class SaveFile {
         try {
             statement.executeUpdate("INSERT INTO overall_statistics VALUES "
                     + "('played', 0),"
+                    + "('lost', 0),"
                     + "('won', 0)");
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -103,11 +105,15 @@ public class SaveFile {
         }
     }
 
-    public void incrementGameWon() {
+    public void incrementGamesWon() {
         this.incrementLine("won");
     }
 
-    public void incrementGamePlayed() {
+    public void incrementGamesLost() {
+        this.incrementLine("lost");
+    }
+
+    public void incrementGamesPlayed() {
         this.incrementLine("played");
     }
 
@@ -139,8 +145,11 @@ public class SaveFile {
         return this.getValueFromStatistics("won");
     }
 
+    public int getGamesLost() {
+        return this.getValueFromStatistics("lost");
+    }
+
     public int getGamesPlayed() {
         return this.getValueFromStatistics("played");
     }
-
 }

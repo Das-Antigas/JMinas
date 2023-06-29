@@ -146,7 +146,7 @@ public class JMinasMain extends JFrame implements ActionListener {
         cronometro.start();
         jugando = true;
         Ganador = false;
-        saveFile.incrementGamePlayed();
+        saveFile.incrementGamesPlayed();
     }
 
     public void RestartGame() {
@@ -157,7 +157,7 @@ public class JMinasMain extends JFrame implements ActionListener {
         }
         jugando = false;
         Ganador = false;
-        saveFile.incrementGamePlayed();
+        saveFile.incrementGamesPlayed();
     }
 
     public void LostGame() {
@@ -166,6 +166,7 @@ public class JMinasMain extends JFrame implements ActionListener {
         jugando = false;
         Ganador = false;
         new MakeSound(Variables.BOOM_SOUND, Ganador).start();
+        saveFile.incrementGamesLost();
         JOptionPane.showMessageDialog(null, language.getString("lost_message"));
     }
 
@@ -174,7 +175,7 @@ public class JMinasMain extends JFrame implements ActionListener {
         panelCentral.wonGame();
         Ganador = true;
         new MakeSound(Variables.WINNER_SOUND, Ganador).start();
-        saveFile.incrementGameWon();
+        saveFile.incrementGamesWon();
         JOptionPane.showMessageDialog(null, language.getString("won_message"));
     }
 
@@ -218,7 +219,6 @@ public class JMinasMain extends JFrame implements ActionListener {
         } else if (e.getSource() == aboutMenuItem) {
             new AboutDialog().GenerateFrame();
         } else if (e.getSource() == statiticsMenuItem) {
-            System.out.println("funciona");
             new StatisticsWindow();
         }
 
