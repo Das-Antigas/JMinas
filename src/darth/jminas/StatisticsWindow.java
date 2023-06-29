@@ -10,6 +10,7 @@ public class StatisticsWindow extends JFrame {
         setTitle("Estatísticas");
         setSize(300, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setLocationByPlatform(true);
 
         // Criação dos componentes
         JPanel painelSuperior = new JPanel();

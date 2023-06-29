@@ -18,7 +18,7 @@ public class TopPanel extends JPanel {
 
     private static final long serialVersionUID = 2473191468363778297L;
 
-    private JMinasMain minasMain;
+    private final JMinasMain minasMain;
     private static JLabel lblTime, lblMines, lblStart;
     private JPanel pTimer, pMines;
 
@@ -33,21 +33,17 @@ public class TopPanel extends JPanel {
 
     private void initComponents() {
         pTimer = new JPanel();
-        pTimer.setBackground(Color.black);
         pTimer.setLayout(new BorderLayout());
         pMines = new JPanel();
-        pMines.setBackground(Color.black);
         pMines.setLayout(new BorderLayout());
 
         lblTime = new JLabel("00:00", JLabel.CENTER);
-        lblTime.setBackground(Color.black);
-        lblTime.setForeground(Color.green);
+        lblTime.setForeground(Color.darkGray);
         lblTime.setFont(new Font("Serif", Font.BOLD, 16));
         pTimer.add(lblTime, BorderLayout.CENTER);
 
         lblMines = new JLabel("00", JLabel.CENTER);
-        lblMines.setBackground(Color.black);
-        lblMines.setForeground(Color.green);
+        lblMines.setForeground(Color.darkGray);
         lblMines.setFont(new Font("Serif", Font.BOLD, 16));
         pMines.add(lblMines, BorderLayout.CENTER);
 
@@ -111,9 +107,9 @@ public class TopPanel extends JPanel {
     }
 
     public void restart() {
-        lblTime.setForeground(Color.green);
+        lblTime.setForeground(Color.darkGray);
         lblTime.setText("00:00");
-        lblMines.setForeground(Color.green);
+        lblMines.setForeground(Color.darkGray);
     }
 
     public static void UpdateTime(int min, int seg) {
@@ -144,7 +140,7 @@ public class TopPanel extends JPanel {
         if (num < 0) {
             lblMines.setForeground(Color.red);
         } else {
-            lblMines.setForeground(Color.green);
+            lblMines.setForeground(Color.darkGray);
         }
         lblMines.setText("" + num);
     }

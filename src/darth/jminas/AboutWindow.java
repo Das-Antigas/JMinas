@@ -22,6 +22,7 @@ public class AboutWindow extends JFrame {
         setSize(400, 200);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
+        this.setLocationByPlatform(true);
 
         JTextArea textArea = new JTextArea();
         textArea.setEditable(false);

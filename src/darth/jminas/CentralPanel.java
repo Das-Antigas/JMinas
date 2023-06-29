@@ -3,7 +3,6 @@ package darth.jminas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -29,9 +28,9 @@ public class CentralPanel extends JPanel implements MouseListener, MouseMotionLi
     private int imgDy;
 
     private JMinasMain minasMain;
-    private Point mira;
+    private Point cursor;
     private Board board;
-    private int contMinasMarcadas;
+    private int numberOfMines;
 
     private Graphics2D g;
     private Image imgBandera;
@@ -46,9 +45,9 @@ public class CentralPanel extends JPanel implements MouseListener, MouseMotionLi
     public CentralPanel(JMinasMain minasMain) {
         this.minasMain = minasMain;
         board = new Board();
-        contMinasMarcadas = Variables.numberOfMines;
-        TopPanel.UpdateMinas(contMinasMarcadas);
-        mira = new Point(0, 0);
+        numberOfMines = Variables.numberOfMines;
+        TopPanel.UpdateMinas(numberOfMines);
+        cursor = new Point(0, 0);
 
         loadAllImages();
 
@@ -67,10 +66,10 @@ public class CentralPanel extends JPanel implements MouseListener, MouseMotionLi
 
     public void restart() {
         board = new Board();
-        contMinasMarcadas = Variables.numberOfMines;
-        TopPanel.UpdateMinas(contMinasMarcadas);
+        numberOfMines = Variables.numberOfMines;
+        TopPanel.UpdateMinas(numberOfMines);
         TopPanel.UpdateIconStart(iconNormal, " :) ");
-        mira = new Point(0, 0);
+        cursor = new Point(0, 0);
         repaint();
     }
 
@@ -96,47 +95,43 @@ public class CentralPanel extends JPanel implements MouseListener, MouseMotionLi
 
         for (int i = 0; i < Variables.width; i++) {
             for (int j = 0; j < Variables.height; j++) {
-                //g.setColor(Color.gray);
-                //g.setPaint(new GradientPaint(11, 10, Color.gray, 25, 25, Color.lightGray, true));
                 g.setPaint(new Color(0xb9bcb5));
-                //if(mapa.TieneMina(i, j))
-                //	g.setColor(Color.red);
                 g.fillRect(i * dx + 1, j * dy + 1, dx - 1, dy - 1);
 
                 if (board.isCellOpen(i, j)) {
                     if (board.hasMine(i, j)) {
                         if (board.cellIsMarked(i, j)) {
-                            g.setPaint(new GradientPaint(11, 10, new Color(0, 255, 0), 25, 25, new Color(0, 200, 0), true));
+                            g.setPaint(Color.green);
                         } else {
-                            g.setPaint(new GradientPaint(11, 10, new Color(255, 0, 0), 25, 25, new Color(200, 0, 0), true));
+                            g.setPaint(Color.red);
                         }
                         g.fillRect(i * dx + 1, j * dy + 1, dx - 1, dy - 1);
                         if (imgExplosion != null) {
                             g.drawImage(imgExplosion, i * dx + (dx / 4), j * dy + (dy / 4), dx - (dx / 2), dy - (dy / 2), this);
                         }
                     } else {
-                        g.setPaint(new GradientPaint(11, 10, new Color(200, 200, 200), 25, 25, new Color(230, 230, 230), true));
+                        g.setPaint(new Color(0xede6e6));
                         g.fillRect(i * dx + 1, j * dy + 1, dx - 1, dy - 1);
                     }
 
                     numCerc = board.getNumberOfAdjacentMines(i, j);
                     if (numCerc != 0 && !board.hasMine(i, j)) {
                         strNum = "" + numCerc;
-                        g.setColor(Variables.getColorCantidad(board.getNumberOfAdjacentMines(i, j)));
+                        g.setColor(Variables.getColorMineCount(board.getNumberOfAdjacentMines(i, j)));
                         g.drawString(strNum, i * dx + dx / 2 - fm.stringWidth(strNum) / 3, j * dy + dy / 2 + fm.getHeight() / 3);
                     }
                 } else if (board.cellIsMarked(i, j)) {
                     if (imgBandera != null) {
                         g.drawImage(imgBandera, i * dx + imgDx, j * dy + imgDy, dx - (dx / 3), dy - (dy / 3), this);
                     } else {
-                        g.setPaint(new GradientPaint(11, 10, new Color(0, 255, 0), 25, 25, new Color(0, 200, 0), true));
+                        g.setPaint(Color.green);
                         g.fillRect(i * dx, j * dy, dx, dy);
                     }
                 }
             }
         }
         g.setColor(Color.red);
-        g.drawRect(mira.x * dx + 1, mira.y * dy + 1, dx - 2, dy - 2);
+        g.drawRect(cursor.x * dx + 1, cursor.y * dy + 1, dx - 2, dy - 2);
     }
 
     public void lostGame() {
@@ -183,11 +178,11 @@ public class CentralPanel extends JPanel implements MouseListener, MouseMotionLi
             case 1:
                 if (!board.isCellOpen(x, y)) {
                     if (board.toggleMarkCell(x, y)) {
-                        --contMinasMarcadas;
+                        --numberOfMines;
                     } else {
-                        ++contMinasMarcadas;
+                        ++numberOfMines;
                     }
-                    TopPanel.UpdateMinas(contMinasMarcadas);
+                    TopPanel.UpdateMinas(numberOfMines);
                 }
                 break;
         }
@@ -229,8 +224,8 @@ public class CentralPanel extends JPanel implements MouseListener, MouseMotionLi
 
         int x = e.getX() / dx;
         int y = e.getY() / dy;
-        if (x != mira.getX() || y != mira.getY()) {
-            mira = new Point(x, y);
+        if (x != cursor.getX() || y != cursor.getY()) {
+            cursor = new Point(x, y);
         }
     }
 
@@ -239,7 +234,7 @@ public class CentralPanel extends JPanel implements MouseListener, MouseMotionLi
         TopPanel.UpdateIconStart(iconNormal, Variables.NORMAL_TEXT);
         int x = e.getX() / dx;
         int y = e.getY() / dy;
-        if (mira.x != x || mira.y != y) {
+        if (cursor.x != x || cursor.y != y) {
             return;
         }
 
@@ -267,8 +262,8 @@ public class CentralPanel extends JPanel implements MouseListener, MouseMotionLi
 
         int x = e.getX() / dx;
         int y = e.getY() / dy;
-        if (x != mira.getX() || y != mira.getY()) {
-            mira = new Point(x, y);
+        if (x != cursor.getX() || y != cursor.getY()) {
+            cursor = new Point(x, y);
             if (minasMain.isPlaying()) {
                 repaint();
             }
@@ -281,43 +276,43 @@ public class CentralPanel extends JPanel implements MouseListener, MouseMotionLi
 
     @Override
     public void keyPressed(KeyEvent e) {
-        int x = (int) mira.getX();
-        int y = (int) mira.getY();
+        int x = (int) cursor.getX();
+        int y = (int) cursor.getY();
 
         switch (e.getKeyCode()) {
             case KeyEvent.VK_LEFT:
                 if (x > 0) {
-                    mira = new Point(x - 1, y);
+                    cursor = new Point(x - 1, y);
                     repaint();
                 } else {
-                    mira = new Point(Variables.width - 1, y);
+                    cursor = new Point(Variables.width - 1, y);
                     repaint();
                 }
                 break;
             case KeyEvent.VK_RIGHT:
                 if (x < Variables.width - 1) {
-                    mira = new Point(x + 1, y);
+                    cursor = new Point(x + 1, y);
                     repaint();
                 } else {
-                    mira = new Point(0, y);
+                    cursor = new Point(0, y);
                     repaint();
                 }
                 break;
             case KeyEvent.VK_UP:
                 if (y > 0) {
-                    mira = new Point(x, y - 1);
+                    cursor = new Point(x, y - 1);
                     repaint();
                 } else {
-                    mira = new Point(x, Variables.height - 1);
+                    cursor = new Point(x, Variables.height - 1);
                     repaint();
                 }
                 break;
             case KeyEvent.VK_DOWN:
                 if (y < Variables.height - 1) {
-                    mira = new Point(x, y + 1);
+                    cursor = new Point(x, y + 1);
                     repaint();
                 } else {
-                    mira = new Point(x, 0);
+                    cursor = new Point(x, 0);
                     repaint();
                 }
                 break;

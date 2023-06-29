@@ -9,20 +9,7 @@ public class Variables {
     private static int level = 1;
     public static int height = 9;
     public static int width = 9;
-    public static int numberOfMines = 18;
-
-    /*
-    public static final String TIMER_ICON_PATH = "/darth/img/cronometro.png";
-    public static final String MINES_ICON_PATH = "/darth/img/mina.png";
-    public static final String FLAG_ICON_PATH = "/darth/img/bandera.png";
-    public static final String EXPLOSION_ICON_PATH = "/darth/img/boom.png";
-    public static final String NORMAL_ICON_PATH = "/darth/img/cool_32x32.png";
-    public static final String CLICK_ICON_PATH = "/darth/img/surprised_32x32.png";
-    public static final String MARK_ICON_PATH = "/darth/img/question_32x32.png";
-    public static final String LOOSER_ICON_PATH = "/darth/img/crying_32x32.png";
-    public static final String WINNER_ICON_PATH = "/darth/img/party_32x32.png";
-    public static final String LAUGHING_ICON_PATH = "/darth/img/laughtingoutloud_32x32.png";
-    */
+    public static int numberOfMines = 9;
     
     public static final String BOOM_SOUND = "/darth/audio/boom.wav";
     public static final String WINNER_SOUND = "/darth/audio/win.wav";
@@ -75,12 +62,12 @@ public class Variables {
         return level;
     }
 
-    public static Color getColorCantidad(int op) {
+    public static Color getColorMineCount(int op) {
         switch (op) {
             case 1:
                 return Color.blue;
             case 2:
-                return new Color(00, 99, 00);
+                return new Color(0x006000);
             case 3:
                 return Color.red;
             case 4:

@@ -24,6 +24,7 @@ public class ChangeLanguage extends JFrame {
         this.language = Language.getInstance();
         setTitle(this.language.getString("change_language"));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setLocationByPlatform(true);
 
         // Main panel
         JPanel mainPanel = new JPanel();
@@ -54,7 +55,19 @@ public class ChangeLanguage extends JFrame {
         JButton cancelButton = new JButton("Cancel");
         buttonPanel.add(okButton);
         buttonPanel.add(cancelButton);
-
+        
+        switch (this.language.getLocale().getLanguage()) {
+            case "pt":
+                radioPT.setSelected(true);
+                break;
+            case "en":
+                radioEN.setSelected(true);
+                break;
+            default:
+                radioES.setSelected(true);
+                break;
+        }
+        
         // Buttons listeners
         okButton.addActionListener((ActionEvent e) -> {
             Locale locale1;
