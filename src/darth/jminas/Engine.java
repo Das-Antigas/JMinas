@@ -4,10 +4,10 @@ import darth.jminas.tools.MakeSound;
 
 public class Engine {
 
-    private JMinasMain main;
-    private TopPanel panelTop;
-    private CentralPanel panelCentral;
-    private BottomPanel panelBottom;
+    private final JMinasMain main;
+    private final TopPanel panelTop;
+    private final CentralPanel panelCentral;
+    private final BottomPanel panelBottom;
     private Timer chronometer;
 
     private boolean playing = false;

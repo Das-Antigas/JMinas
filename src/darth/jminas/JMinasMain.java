@@ -49,10 +49,13 @@ public class JMinasMain extends JFrame implements ActionListener {
     private boolean jugando = false;
     public boolean Ganador = false;
 
-    Language language;
+    private Language language;
+    private SaveFile saveFile;
+    
 
     public JMinasMain() {
         this.language = Language.getInstance();
+        this.saveFile = SaveFile.getInstance();
 
         errorReporter = new ErrorReporter();
         cleanErrors();
@@ -143,6 +146,7 @@ public class JMinasMain extends JFrame implements ActionListener {
         cronometro.start();
         jugando = true;
         Ganador = false;
+        saveFile.incrementGamePlayed();
     }
 
     public void RestartGame() {
@@ -153,6 +157,7 @@ public class JMinasMain extends JFrame implements ActionListener {
         }
         jugando = false;
         Ganador = false;
+        saveFile.incrementGamePlayed();
     }
 
     public void LostGame() {
@@ -161,6 +166,7 @@ public class JMinasMain extends JFrame implements ActionListener {
         jugando = false;
         Ganador = false;
         new MakeSound(Variables.BOOM_SOUND, Ganador).start();
+        JOptionPane.showMessageDialog(null, language.getString("lost_message"));
     }
 
     public void WinGame() {
@@ -168,6 +174,8 @@ public class JMinasMain extends JFrame implements ActionListener {
         panelCentral.wonGame();
         Ganador = true;
         new MakeSound(Variables.WINNER_SOUND, Ganador).start();
+        saveFile.incrementGameWon();
+        JOptionPane.showMessageDialog(null, language.getString("won_message"));
     }
 
     public static void StopChron() {

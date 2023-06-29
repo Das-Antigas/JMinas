@@ -13,6 +13,18 @@ public class SaveFile {
 
     private Connection connection;
     private Statement statement;
+    private static SaveFile uniqueInstance;
+    
+    private SaveFile() {}
+    
+    public static synchronized SaveFile getInstance() {
+        if (uniqueInstance == null) {
+            uniqueInstance = new SaveFile();
+            uniqueInstance.connect();
+        }
+
+        return uniqueInstance;
+    }
 
     public void connect() {
         connection = null;
@@ -91,11 +103,11 @@ public class SaveFile {
         }
     }
 
-    private void incrementGameWon() {
+    public void incrementGameWon() {
         this.incrementLine("won");
     }
 
-    private void incrementGamePlayed() {
+    public void incrementGamePlayed() {
         this.incrementLine("played");
     }
 
@@ -131,24 +143,4 @@ public class SaveFile {
         return this.getValueFromStatistics("played");
     }
 
-    public static void main(String[] args) {
-        SaveFile s = new SaveFile();
-        s.connect();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        s.insertLines();
-
-        s.incrementGamePlayed();
-        s.incrementGamePlayed();
-        s.incrementGamePlayed();
-        s.incrementGamePlayed();
-        s.incrementGamePlayed();
-        s.incrementGameWon();
-
-        s.addGameScore("Luciano", 123);
-    }
 }
