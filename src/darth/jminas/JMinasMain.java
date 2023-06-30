@@ -217,7 +217,7 @@ public class JMinasMain extends JFrame implements ActionListener {
             setLocationRelativeTo(null);
             RestartGame();
         } else if (e.getSource() == aboutMenuItem) {
-            new AboutDialog().GenerateFrame();
+            new AboutWindow();
         } else if (e.getSource() == statiticsMenuItem) {
             new StatisticsWindow();
         }

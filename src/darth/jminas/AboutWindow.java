@@ -19,7 +19,7 @@ public class AboutWindow extends JFrame {
     public AboutWindow() {
         language = Language.getInstance();
         setTitle("About JMinas");
-        setSize(400, 200);
+        setSize(400, 220);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
         this.setLocationByPlatform(true);
@@ -33,7 +33,7 @@ public class AboutWindow extends JFrame {
         textArea.append(language.getString("about_authors") + "\n");
 
         JScrollPane scrollPane = new JScrollPane(textArea);
-        scrollPane.setBounds(20, 20, 360, 140);
+        scrollPane.setBounds(20, 20, 360, 200);
         add(scrollPane);
 
         setLayout(null);
